@@ -69,6 +69,10 @@ GDALTiler::GDALTiler(GDALDataset *poDataset, const Grid &grid, const TilerOption
 
     OGRSpatialReference srcSRS = OGRSpatialReference(srcWKT);
     OGRSpatialReference gridSRS = mGrid.getSRS();
+    // set the axis mapping strategy to traditional GIS order 
+    // https://gis.stackexchange.com/questions/421771/ogr-coordinatetransformation-appears-to-be-inverting-xy-coordinates
+    gridSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
+    srcSRS.SetAxisMappingStrategy(OAMS_TRADITIONAL_GIS_ORDER);
 
     if (!srcSRS.IsSame(&gridSRS)) { // it doesn't match
       // Check the srs is valid
